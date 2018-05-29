@@ -214,48 +214,48 @@ def run(filename):
                         matrix_mult( stack[-1], tmp )
                         draw_lines(tmp, screen, zbuffer, color)
                         tmp = []
-                    elif c == 'move':
-                        tmp = make_translate(args[0], args[1], args[2])
-                        matrix_mult(stack[-1], tmp)
-                        stack[-1] = [x[:] for x in tmp]
+                elif c == 'move':
+                    tmp = make_translate(args[0], args[1], args[2])
+                    matrix_mult(stack[-1], tmp)
+                    stack[-1] = [x[:] for x in tmp]
+                    tmp = []
+                elif c == 'scale':
+                    tmp = make_scale(args[0], args[1], args[2])
+                    matrix_mult(stack[-1], tmp)
+                    stack[-1] = [x[:] for x in tmp]
+                    tmp = []
+                elif c == 'rotate':
+                    theta = args[1] * (math.pi/180)
+                    if args[0] == 'x':
+                        tmp = make_rotX(theta)
+                    elif args[0] == 'y':
+                        tmp = make_rotY(theta)
+                    else:
+                        tmp = make_rotZ(theta)
+                        matrix_mult( stack[-1], tmp )
+                        stack[-1] = [ x[:] for x in tmp]
                         tmp = []
-                    elif c == 'scale':
-                        tmp = make_scale(args[0], args[1], args[2])
-                        matrix_mult(stack[-1], tmp)
-                        stack[-1] = [x[:] for x in tmp]
-                        tmp = []
-                    elif c == 'rotate':
-                        theta = args[1] * (math.pi/180)
-                        if args[0] == 'x':
-                            tmp = make_rotX(theta)
-                        elif args[0] == 'y':
-                            tmp = make_rotY(theta)
-                        else:
-                            tmp = make_rotZ(theta)
-                            matrix_mult( stack[-1], tmp )
-                            stack[-1] = [ x[:] for x in tmp]
-                            tmp = []
-                    elif c == 'push':
-                        stack.append([x[:] for x in stack[-1]] )
-                    elif c == 'pop':
-                        stack.pop()
-                    elif c == 'display':
-                        display(screen)
-                    elif c == 'save':
-                        save_extension(screen, args[0])
-
-                if is_anim:
-                    save_extension(screen, ("./anim/" + basename + ("%03d" % frame) + ".png"))
-
-                tmp = new_matrix()
-                ident( tmp )
-                
-                stack = [ [x[:] for x in tmp] ]
-                screen = new_screen()
-                zbuffer = new_zbuffer()
-                tmp = []
-                step_3d = 20
+                elif c == 'push':
+                    stack.append([x[:] for x in stack[-1]] )
+                elif c == 'pop':
+                    stack.pop()
+                elif c == 'display':
+                    display(screen)
+                elif c == 'save':
+                    save_extension(screen, args[0])
 
             if is_anim:
-                make_animation(basename)
+                save_extension(screen, ("./anim/" + basename + ("%03d" % frame) + ".png"))
+
+            tmp = new_matrix()
+            ident( tmp )
+            
+            stack = [ [x[:] for x in tmp] ]
+            screen = new_screen()
+            zbuffer = new_zbuffer()
+            tmp = []
+            step_3d = 20
+
+        if is_anim:
+            make_animation(basename)
                         
