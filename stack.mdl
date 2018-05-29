@@ -1,0 +1,13 @@
+frames 100
+basename stack
+push
+move 250 150 0
+push
+box -100 0 75 200 20 150
+box -100 0 75 20 -50 150
+box 100 0 75 -20 -50 150
+move 250 20 0
+rotate z -40 spinny
+torus -250 0 0 15 45
+vary spinny 0 49 0 1
+vary spinny 50 99 1 0
